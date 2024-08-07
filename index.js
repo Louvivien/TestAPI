@@ -1,8 +1,11 @@
+// index.js
 const fastify = require('fastify')({ logger: true });
 const path = require('path');
+const FastifySwagger = require('@fastify/swagger');
+const FastifyStatic = require('@fastify/static');
 
 // Register Swagger
-fastify.register(require('fastify-swagger'), {
+fastify.register(FastifySwagger, {
   exposeRoute: true,
   routePrefix: '/documentation',
   swagger: {
@@ -18,6 +21,13 @@ fastify.register(require('fastify-swagger'), {
   }
 });
 
+// Register Static Files
+fastify.register(FastifyStatic, {
+  root: path.join(__dirname, 'public'),
+  prefix: '/', // optional: default '/'
+});
+
+// Define Route
 fastify.get('/api/info', async (request, reply) => {
   return {
     name: "User Account API",
@@ -26,16 +36,14 @@ fastify.get('/api/info', async (request, reply) => {
   };
 });
 
-// Serve Swagger UI
-fastify.register(require('fastify-static'), {
-  root: path.join(__dirname, 'public'),
-  prefix: '/', // optional: default '/'
-});
-
+// Start Server
 const start = async () => {
   try {
-    await fastify.listen(process.env.PORT || 3000, '0.0.0.0');
-    fastify.swagger(); // Generate the Swagger documentation
+    await fastify.listen({
+      port: process.env.PORT || 3000,
+      host: '0.0.0.0'
+    });
+    fastify.swagger(); // Generate Swagger documentation
     fastify.log.info(`Server is running on ${fastify.server.address().port}`);
   } catch (err) {
     fastify.log.error(err);
