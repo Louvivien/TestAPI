@@ -3,9 +3,9 @@ const fastify = require('fastify')({ logger: true });
 
 fastify.get('/api/info', async (request, reply) => {
   return {
-    name: "Simple Fastify API",
+    name: "User Account API",
     version: "1.0.0",
-    description: "This is a simple API example using Fastify."
+    description: "First Name: John Last Name: Doe LastOrderAmount: 12$ Age: 45"
   };
 });
 
