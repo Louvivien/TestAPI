@@ -1,0 +1,26 @@
+openapi: 3.0.0
+info:
+  title: User Account API
+  version: 1.0.0
+  description: An API to provide user account information
+paths:
+  /api/info:
+    get:
+      summary: Get User Account Information
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    example: User Account API
+                  version:
+                    type: string
+                    example: 1.0.0
+                  description:
+                    type: string
+                    example: First Name: John Last Name: Doe LastOrderAmount: 12$ Age: 45
